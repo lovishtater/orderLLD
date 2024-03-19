@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
-export const repo = {
-  transaction: async (callback: (session: any) => Promise<void>) => {
+export class Repository implements IRepository {
+  constructor() {}
+
+  async transaction(callback: (session: any) => Promise<void>) {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -13,5 +15,17 @@ export const repo = {
       session.endSession();
       throw error;
     }
-  },
-};
+  }
+  async get(collection: string, query: any) {
+    return {};
+  }
+  async insert(collection: string, data: any) {
+    return {};
+  }
+}
+
+export interface IRepository {
+  transaction: (callback: (session: any) => Promise<void>) => Promise<void>;
+  get: (collection: string, query: any) => Promise<any>;
+  insert: (collection: string, data: any) => Promise<any>;
+}
