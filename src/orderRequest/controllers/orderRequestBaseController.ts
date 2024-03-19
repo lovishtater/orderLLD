@@ -1,13 +1,14 @@
 import { repo } from "../../db/repo";
-import { baseOrdersService } from "../../orders/services/baseOrdersService";
+import { orderBaseService } from "../../orders/services/baseOrdersService";
 import { GroupService } from "../groups/groupService";
 import { OrderRequestService } from "../orderRequests/orderRequestService";
 import { Notifyer } from "../notifyer";
 import { orderNotifyerService } from "./orderNotifyerService";
 
 export const createOrderFromOrderRequest = async (id: string) => {
-  const ordersService = new baseOrdersService();
+  const ordersService = new orderBaseService();
   const orderRequestService = new OrderRequestService({ id });
+  const buyer = new GroupService();
   const notifyer = new orderNotifyerService();
 
   await orderRequestService.isOrderAlreadyCreated();
